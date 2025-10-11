@@ -1,5 +1,7 @@
+import type { CellValue } from "../utils/board"
+
 interface TileProps {
-    value?: number
+    value?: CellValue
 }
 
 export default function Tile(props: TileProps) {

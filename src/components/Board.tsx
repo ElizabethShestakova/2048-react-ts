@@ -1,14 +1,17 @@
-import { useGameLogic } from "../hooks/useGameLogic"
+import { type Board } from "../utils/board"
 import Tile from "./Tile"
 
-export default function Board() {
-    const { board, score } = useGameLogic()
+interface BoardProps {
+    score: number
+    board: Board
+}
 
+export default function Board(props: BoardProps) {
     return (
         <div className="w-[90vw] max-w-[360px] mx-auto bg-amber-200 p-3 rounded-2xl shadow-inner">
-            <p className="text-center mb-2 font-semibold">Score: {score}</p>
+            <p className="text-center mb-2 font-semibold">Score: {props.score}</p>
             <div className="grid grid-cols-4 gap-3" style={{ gridAutoRows: "1fr" }}>
-                {board.flat().map((cell, i) => (
+                {props.board.flat().map((cell, i) => (
                     <Tile key={i} value={cell} />
                 ))}
             </div>
