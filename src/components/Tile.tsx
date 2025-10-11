@@ -3,5 +3,13 @@ interface TileProps {
 }
 
 export default function Tile(props: TileProps) {
-    return <div className="rounded-xl bg-amber-100 shadow-inner aspect-[1/1]">{props.value}</div>
+    return (
+        <div
+            className={`relative w-full before:content-[''] before:block before:pt-[100%] rounded-xl shadow-inner flex items-center justify-center text-xl font-bold ${
+                props.value ? "bg-amber-400" : "bg-amber-100"
+            }`}
+        >
+            <span className="absolute">{props.value ?? ""}</span>
+        </div>
+    )
 }
