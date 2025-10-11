@@ -1,14 +1,12 @@
-import { useState } from "react"
-import reactLogo from "./assets/react.svg"
-import viteLogo from "/vite.svg"
 import "./App.css"
+import Header from "./components/Header"
+import Board from "./components/Board"
 
 function App() {
-    const [count, setCount] = useState(0)
-
     return (
-        <div className="min-h-screen flex items-center justify-center bg-blue-100">
-            <h1 className="text-3xl font-bold text-blue-600">Tailwind работает! 🎉</h1>
+        <div className="min-h-screen flex flex-col items-center justify-center bg-blue-100">
+            <Header />
+            <Board />
         </div>
     )
 }
