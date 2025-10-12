@@ -18,11 +18,12 @@ export function useGameLogic() {
     const slideLeft = () => {
         setBoard((prev) => {
             const newBoard = moveLeft(prev)
-            if (boardsEqual(prev, newBoard)) {
+            if (boardsEqual(prev, newBoard.board)) {
                 return prev
             }
 
-            const updated = addRandomTile(newBoard)
+            setScore((s) => s + newBoard.gainedScore)
+            const updated = addRandomTile(newBoard.board)
 
             return updated
         })
@@ -31,11 +32,12 @@ export function useGameLogic() {
     const slideRight = () => {
         setBoard((prev) => {
             const newBoard = moveRight(prev)
-            if (boardsEqual(prev, newBoard)) {
+            if (boardsEqual(prev, newBoard.board)) {
                 return prev
             }
 
-            const updated = addRandomTile(newBoard)
+            setScore((s) => s + newBoard.gainedScore)
+            const updated = addRandomTile(newBoard.board)
 
             return updated
         })
@@ -44,11 +46,12 @@ export function useGameLogic() {
     const slideUp = () => {
         setBoard((prev) => {
             const newBoard = moveUp(prev)
-            if (boardsEqual(prev, newBoard)) {
+            if (boardsEqual(prev, newBoard.board)) {
                 return prev
             }
 
-            const updated = addRandomTile(newBoard)
+            setScore((s) => s + newBoard.gainedScore)
+            const updated = addRandomTile(newBoard.board)
 
             return updated
         })
@@ -57,11 +60,12 @@ export function useGameLogic() {
     const slideDown = () => {
         setBoard((prev) => {
             const newBoard = moveDown(prev)
-            if (boardsEqual(prev, newBoard)) {
+            if (boardsEqual(prev, newBoard.board)) {
                 return prev
             }
 
-            const updated = addRandomTile(newBoard)
+            setScore((s) => s + newBoard.gainedScore)
+            const updated = addRandomTile(newBoard.board)
 
             return updated
         })

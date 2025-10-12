@@ -1,5 +1,9 @@
 export type CellValue = number // 2, 4, 8 ... или пустая ячейка
 export type Board = CellValue[][]
+export interface SlideResult {
+    board: Board
+    gainedScore: number
+}
 
 export function createEmptyBoard(): Board {
     return Array.from({ length: 4 }, () => Array(4).fill(0))
