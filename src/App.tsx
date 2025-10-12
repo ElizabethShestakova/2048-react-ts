@@ -5,11 +5,14 @@ import { useGameLogic } from "./hooks/useGameLogic"
 import { useEffect } from "react"
 
 function App() {
-    const { board, score, resetGame, slideLeft } = useGameLogic()
+    const { board, score, resetGame, slideLeft, slideRight } = useGameLogic()
 
     const handleUserKeyPress = (e: KeyboardEvent) => {
         if (e.key === "ArrowLeft") {
             slideLeft()
+        }
+        if (e.key === "ArrowRight") {
+            slideRight()
         }
     }
 

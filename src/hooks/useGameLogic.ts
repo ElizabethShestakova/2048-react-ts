@@ -1,6 +1,6 @@
 import { useState } from "react"
 import { addRandomTile, boardsEqual, createEmptyBoard, type Board } from "../utils/board"
-import { moveLeft } from "../utils/rowOps"
+import { moveLeft, moveRight } from "../utils/rowOps"
 
 export function useGameLogic() {
     const [board, setBoard] = useState<Board>(() => {
@@ -28,5 +28,18 @@ export function useGameLogic() {
         })
     }
 
-    return { board, score, resetGame, slideLeft }
+    const slideRight = () => {
+        setBoard((prev) => {
+            const newBoard = moveRight(prev)
+            if (boardsEqual(prev, newBoard)) {
+                return prev
+            }
+
+            const updated = addRandomTile(newBoard)
+
+            return updated
+        })
+    }
+
+    return { board, score, resetGame, slideLeft, slideRight }
 }
