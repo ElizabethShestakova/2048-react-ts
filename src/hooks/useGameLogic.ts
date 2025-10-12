@@ -1,21 +1,32 @@
-import { useState, useEffect } from "react"
-import { addRandomTile, createEmptyBoard, type Board } from "../utils/board"
+import { useState } from "react"
+import { addRandomTile, boardsEqual, createEmptyBoard, type Board } from "../utils/board"
+import { moveLeft } from "../utils/rowOps"
 
 export function useGameLogic() {
-    const [board, setBoard] = useState<Board>(createEmptyBoard())
+    const [board, setBoard] = useState<Board>(() => {
+        const b = createEmptyBoard()
+        return addRandomTile(addRandomTile(b))
+    })
     const [score, setScore] = useState(0)
 
     const resetGame = () => {
-        let newBoard = createEmptyBoard()
-        newBoard = addRandomTile(addRandomTile(newBoard)) // две стартовые плитки
+        const newBoard = addRandomTile(addRandomTile(createEmptyBoard()))
         setBoard(newBoard)
         setScore(0)
     }
 
-    // инициализация при первом рендере
-    useEffect(() => {
-        resetGame()
-    }, [])
+    const slideLeft = () => {
+        setBoard((prev) => {
+            const newBoard = moveLeft(prev)
+            if (boardsEqual(prev, newBoard)) {
+                return prev
+            }
 
-    return { board, score, resetGame }
+            const updated = addRandomTile(newBoard)
+
+            return updated
+        })
+    }
+
+    return { board, score, resetGame, slideLeft }
 }

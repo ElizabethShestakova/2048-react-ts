@@ -1,8 +1,8 @@
-export type CellValue = number | null // 2, 4, 8 ... или пустая ячейка
+export type CellValue = number // 2, 4, 8 ... или пустая ячейка
 export type Board = CellValue[][]
 
 export function createEmptyBoard(): Board {
-    return Array.from({ length: 4 }, () => Array(4).fill(null))
+    return Array.from({ length: 4 }, () => Array(4).fill(0))
 }
 
 export function addRandomTile(board: Board): Board {
@@ -10,7 +10,7 @@ export function addRandomTile(board: Board): Board {
 
     board.forEach((row, r) =>
         row.forEach((cell, c) => {
-            if (cell === null) emptyCells.push([r, c])
+            if (cell === 0) emptyCells.push([r, c])
         })
     )
 
@@ -21,4 +21,8 @@ export function addRandomTile(board: Board): Board {
     const newBoard = board.map((row) => [...row])
     newBoard[r][c] = value
     return newBoard
+}
+
+export function boardsEqual(a: number[][], b: number[][]) {
+    return a.every((row, i) => row.every((val, j) => val === b[i][j]))
 }

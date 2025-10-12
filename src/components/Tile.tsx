@@ -11,7 +11,7 @@ export default function Tile(props: TileProps) {
                 props.value ? "bg-amber-400" : "bg-amber-100"
             }`}
         >
-            <span className="absolute">{props.value ?? ""}</span>
+            <span className="absolute">{props.value || ""}</span>
         </div>
     )
 }
