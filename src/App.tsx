@@ -1,10 +1,11 @@
 import { useEffect } from "react"
 import { useGameLogic } from "./hooks/useGameLogic"
+import useDarkMode from "./hooks/useDarkMode"
 import Header from "./components/Header"
 import Board from "./components/Board"
 import GameOverModal from "./components/GameOverModal"
-import "./App.css"
 import Score from "./components/Score"
+import "./App.css"
 
 function App() {
     const { board, score, resetGame, slideLeft, slideRight, slideUp, slideDown, bestScore, gameIsOver } = useGameLogic()
@@ -31,9 +32,15 @@ function App() {
         }
     }, [])
 
+    const { isDark, toggleDarkMode } = useDarkMode()
+
     return (
-        <div className="min-h-screen flex flex-col items-center justify-start bg-neutral-50 pt-[50px]">
-            <Header resetGameFunction={resetGame} />
+        <div
+            className={`min-h-screen flex flex-col items-center justify-start pt-[50px] ${
+                isDark ? "bg-slate-900 text-amber-100" : "bg-amber-50 text-slate-800"
+            }`}
+        >
+            <Header resetGameFunction={resetGame} toggleDarkMode={toggleDarkMode} />
             <Score score={score} bestScore={bestScore} />
             <Board
                 board={board}
