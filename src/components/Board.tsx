@@ -24,9 +24,9 @@ export default function Board(props: BoardProps) {
             <p className="text-center mb-2 font-semibold">Score: {props.score}</p>
             <div className="text-md text-gray-600">Best: {props.bestScore}</div>
             <div className="grid grid-cols-4 gap-3" style={{ gridAutoRows: "1fr" }}>
-                {props.board.flat().map((cell, i) => (
-                    <Tile key={i} value={cell} />
-                ))}
+                {props.board.map((row, r) =>
+                    row.map((cell, i) => <Tile key={`${r}-${i}-${cell.value}`} cellValue={cell} />)
+                )}
             </div>
         </div>
     )

@@ -58,6 +58,11 @@ export function useGameLogic() {
             const slideResult = moveLeft(prev)
             return getUpdatedBoard(prev, slideResult)
         })
+        setTimeout(() => {
+            setBoard((b) =>
+                b.map((row) => row.map((cell) => (cell ? { ...cell, isNew: false, isMerged: false } : { value: 0 })))
+            )
+        }, 150)
     }
 
     const slideRight = () => {
@@ -65,6 +70,11 @@ export function useGameLogic() {
             const slideResult = moveRight(prev)
             return getUpdatedBoard(prev, slideResult)
         })
+        setTimeout(() => {
+            setBoard((b) =>
+                b.map((row) => row.map((cell) => (cell ? { ...cell, isNew: false, isMerged: false } : { value: 0 })))
+            )
+        }, 150)
     }
 
     const slideUp = () => {
@@ -72,6 +82,11 @@ export function useGameLogic() {
             const slideResult = moveUp(prev)
             return getUpdatedBoard(prev, slideResult)
         })
+        setTimeout(() => {
+            setBoard((b) =>
+                b.map((row) => row.map((cell) => (cell ? { ...cell, isNew: false, isMerged: false } : { value: 0 })))
+            )
+        }, 150)
     }
 
     const slideDown = () => {
@@ -79,6 +94,11 @@ export function useGameLogic() {
             const slideResult = moveDown(prev)
             return getUpdatedBoard(prev, slideResult)
         })
+        setTimeout(() => {
+            setBoard((b) =>
+                b.map((row) => row.map((cell) => (cell ? { ...cell, isNew: false, isMerged: false } : { value: 0 })))
+            )
+        }, 150)
     }
 
     return { board, score, resetGame, slideLeft, slideRight, slideUp, slideDown, bestScore, gameIsOver }

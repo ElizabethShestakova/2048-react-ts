@@ -12,7 +12,7 @@ export function checkGameIsOver(board: Board): boolean {
 }
 
 function hasEmptyCell(board: Board): boolean {
-    return board.some((row) => row.some((cell) => cell === 0))
+    return board.some((row) => row.some((cell) => cell.value === 0))
 }
 
 function canMove(board: Board): boolean {
@@ -21,7 +21,7 @@ function canMove(board: Board): boolean {
     for (let r = 0; r < size; r++) {
         for (let c = 0; c < size; c++) {
             const current = board[r][c]
-            if (current === 0) continue
+            if (current.value === 0) continue
 
             // можно ли объединить с соседом
             if (r < size - 1 && board[r + 1][c] === current) return true

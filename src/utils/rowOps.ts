@@ -4,24 +4,25 @@ function slideRowLeft(board: Board): SlideResult {
     let gainedScore = 0
     // убираем пустые
     const newBoard = board.map((row) => {
-        const filtered = row.filter((cell) => cell !== 0)
+        const filtered = row.filter((cell) => cell.value !== 0)
 
         // объединяем одинаковые
         for (let i = 0; i < filtered.length - 1; i++) {
-            if (filtered[i] === filtered[i + 1]) {
-                const mergedValue = filtered[i] * 2
-                filtered[i] = mergedValue
-                filtered[i + 1] = 0
+            if (filtered[i].value === filtered[i + 1].value) {
+                const mergedValue = filtered[i].value * 2
+                filtered[i].value = mergedValue
+                filtered[i].isMerged = true
+                filtered[i + 1].value = 0
                 gainedScore += mergedValue
             }
         }
 
         // убираем нули после слияния
-        const compacted: CellValue[] = filtered.filter((v) => v !== 0)
+        const compacted: CellValue[] = filtered.filter((v) => v.value !== 0)
 
         // добавляем null до длины 4
         while (compacted.length < 4) {
-            compacted.push(0)
+            compacted.push({ value: 0 })
         }
         return compacted
     })
