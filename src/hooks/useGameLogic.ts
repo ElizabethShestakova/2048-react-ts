@@ -1,5 +1,5 @@
-import { useState } from "react"
-import { addRandomTile, boardsEqual, createEmptyBoard, type Board } from "../utils/board"
+import { useRef, useState } from "react"
+import { addRandomTile, boardsEqual, createEmptyBoard, type Board, type SlideResult } from "../utils/board"
 import { moveDown, moveLeft, moveRight, moveUp } from "../utils/rowOps"
 
 export function useGameLogic() {
@@ -9,65 +9,55 @@ export function useGameLogic() {
     })
     const [score, setScore] = useState(0)
 
+    // ⛔️ предотвращаем двойное выполнение из-за StrictMode
+    const lastActionRef = useRef<number>(0)
+
     const resetGame = () => {
         const newBoard = addRandomTile(addRandomTile(createEmptyBoard()))
         setBoard(newBoard)
         setScore(0)
     }
 
+    const getUpdatedBoard = (prevBoard: Board, slideResult: SlideResult): Board => {
+        if (boardsEqual(prevBoard, slideResult.board)) {
+            return prevBoard
+        }
+        // --- предотвращаем двойное начисление очков ---
+        const now = Date.now()
+        if (now - lastActionRef.current > 100) {
+            setScore((s) => s + slideResult.gainedScore)
+            lastActionRef.current = now
+        }
+        const updated = addRandomTile(slideResult.board)
+
+        return updated
+    }
+
     const slideLeft = () => {
         setBoard((prev) => {
-            const newBoard = moveLeft(prev)
-            if (boardsEqual(prev, newBoard.board)) {
-                return prev
-            }
-
-            setScore((s) => s + newBoard.gainedScore)
-            const updated = addRandomTile(newBoard.board)
-
-            return updated
+            const slideResult = moveLeft(prev)
+            return getUpdatedBoard(prev, slideResult)
         })
     }
 
     const slideRight = () => {
         setBoard((prev) => {
-            const newBoard = moveRight(prev)
-            if (boardsEqual(prev, newBoard.board)) {
-                return prev
-            }
-
-            setScore((s) => s + newBoard.gainedScore)
-            const updated = addRandomTile(newBoard.board)
-
-            return updated
+            const slideResult = moveRight(prev)
+            return getUpdatedBoard(prev, slideResult)
         })
     }
 
     const slideUp = () => {
         setBoard((prev) => {
-            const newBoard = moveUp(prev)
-            if (boardsEqual(prev, newBoard.board)) {
-                return prev
-            }
-
-            setScore((s) => s + newBoard.gainedScore)
-            const updated = addRandomTile(newBoard.board)
-
-            return updated
+            const slideResult = moveUp(prev)
+            return getUpdatedBoard(prev, slideResult)
         })
     }
 
     const slideDown = () => {
         setBoard((prev) => {
-            const newBoard = moveDown(prev)
-            if (boardsEqual(prev, newBoard.board)) {
-                return prev
-            }
-
-            setScore((s) => s + newBoard.gainedScore)
-            const updated = addRandomTile(newBoard.board)
-
-            return updated
+            const slideResult = moveDown(prev)
+            return getUpdatedBoard(prev, slideResult)
         })
     }
 
