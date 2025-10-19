@@ -24,8 +24,8 @@ function canMove(board: Board): boolean {
             if (current.value === 0) continue
 
             // можно ли объединить с соседом
-            if (r < size - 1 && board[r + 1][c] === current) return true
-            if (c < size - 1 && board[r][c + 1] === current) return true
+            if (r < size - 1 && board[r + 1][c].value === current.value) return true
+            if (c < size - 1 && board[r][c + 1].value === current.value) return true
         }
     }
     return false
