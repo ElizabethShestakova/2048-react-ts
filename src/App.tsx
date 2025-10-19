@@ -5,7 +5,7 @@ import { useGameLogic } from "./hooks/useGameLogic"
 import { useEffect } from "react"
 
 function App() {
-    const { board, score, resetGame, slideLeft, slideRight, slideUp, slideDown } = useGameLogic()
+    const { board, score, resetGame, slideLeft, slideRight, slideUp, slideDown, bestScore, gameIsOver } = useGameLogic()
 
     const handleUserKeyPress = (e: KeyboardEvent) => {
         if (e.key === "ArrowLeft") {
@@ -32,7 +32,7 @@ function App() {
     return (
         <div className="min-h-screen flex flex-col items-center justify-center bg-blue-100">
             <Header resetGameFunction={resetGame} />
-            <Board board={board} score={score} />
+            <Board board={board} score={score} bestScore={bestScore} gameIsOver={gameIsOver} />
         </div>
     )
 }

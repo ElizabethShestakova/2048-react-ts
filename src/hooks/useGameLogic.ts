@@ -1,6 +1,7 @@
 import { useRef, useState } from "react"
 import { addRandomTile, boardsEqual, createEmptyBoard, type Board, type SlideResult } from "../utils/board"
 import { moveDown, moveLeft, moveRight, moveUp } from "../utils/rowOps"
+import { checkGameIsOver } from "../utils/checkGameIsOver"
 
 export function useGameLogic() {
     const [board, setBoard] = useState<Board>(() => {
@@ -9,6 +10,13 @@ export function useGameLogic() {
     })
     const [score, setScore] = useState(0)
 
+    const [gameIsOver, setGameIsOver] = useState(false)
+
+    const [bestScore, setBestScore] = useState(() => {
+        const saved = localStorage.getItem("bestScore")
+        return saved ? parseInt(saved, 10) : 0
+    })
+
     // ⛔️ предотвращаем двойное выполнение из-за StrictMode
     const lastActionRef = useRef<number>(0)
 
@@ -16,6 +24,7 @@ export function useGameLogic() {
         const newBoard = addRandomTile(addRandomTile(createEmptyBoard()))
         setBoard(newBoard)
         setScore(0)
+        setGameIsOver(false)
     }
 
     const getUpdatedBoard = (prevBoard: Board, slideResult: SlideResult): Board => {
@@ -25,10 +34,21 @@ export function useGameLogic() {
         // --- предотвращаем двойное начисление очков ---
         const now = Date.now()
         if (now - lastActionRef.current > 100) {
-            setScore((s) => s + slideResult.gainedScore)
+            setScore((s) => {
+                const newScore = s + slideResult.gainedScore
+                if (newScore > bestScore) {
+                    setBestScore(newScore)
+                    localStorage.setItem("bestScore", newScore.toString())
+                }
+                return newScore
+            })
             lastActionRef.current = now
         }
         const updated = addRandomTile(slideResult.board)
+
+        if (checkGameIsOver(updated)) {
+            setGameIsOver(true)
+        }
 
         return updated
     }
@@ -61,5 +81,5 @@ export function useGameLogic() {
         })
     }
 
-    return { board, score, resetGame, slideLeft, slideRight, slideUp, slideDown }
+    return { board, score, resetGame, slideLeft, slideRight, slideUp, slideDown, bestScore, gameIsOver }
 }
