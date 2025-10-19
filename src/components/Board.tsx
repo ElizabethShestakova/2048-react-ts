@@ -1,3 +1,4 @@
+import useSwipe from "../hooks/useSwipe"
 import { type Board } from "../utils/board"
 import Tile from "./Tile"
 
@@ -5,9 +6,19 @@ interface BoardProps {
     board: Board
     score: number
     bestScore: number
+    onMoveLeft: () => void
+    onMoveRight: () => void
+    onMoveUp: () => void
+    onMoveDown: () => void
 }
 
 export default function Board(props: BoardProps) {
+    useSwipe({
+        onSwipeLeft: props.onMoveLeft,
+        onSwipeRight: props.onMoveRight,
+        onSwipeUp: props.onMoveUp,
+        onSwipeDown: props.onMoveDown
+    })
     return (
         <div className="w-[90vw] max-w-[360px] mx-auto bg-amber-200 p-3 rounded-2xl shadow-inner">
             <p className="text-center mb-2 font-semibold">Score: {props.score}</p>

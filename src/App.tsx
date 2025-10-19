@@ -33,7 +33,15 @@ function App() {
     return (
         <div className="min-h-screen flex flex-col items-center justify-center bg-blue-100">
             <Header resetGameFunction={resetGame} />
-            <Board board={board} score={score} bestScore={bestScore} />
+            <Board
+                board={board}
+                score={score}
+                bestScore={bestScore}
+                onMoveLeft={slideLeft}
+                onMoveRight={slideRight}
+                onMoveUp={slideUp}
+                onMoveDown={slideDown}
+            />
             <GameOverModal show={gameIsOver} score={score} bestScore={bestScore} onRestart={resetGame} />
         </div>
     )
