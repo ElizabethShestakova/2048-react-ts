@@ -4,6 +4,7 @@ import Header from "./components/Header"
 import Board from "./components/Board"
 import GameOverModal from "./components/GameOverModal"
 import "./App.css"
+import Score from "./components/Score"
 
 function App() {
     const { board, score, resetGame, slideLeft, slideRight, slideUp, slideDown, bestScore, gameIsOver } = useGameLogic()
@@ -31,12 +32,11 @@ function App() {
     }, [])
 
     return (
-        <div className="min-h-screen flex flex-col items-center justify-center bg-blue-100">
+        <div className="min-h-screen flex flex-col items-center justify-start bg-neutral-50 pt-[50px]">
             <Header resetGameFunction={resetGame} />
+            <Score score={score} bestScore={bestScore} />
             <Board
                 board={board}
-                score={score}
-                bestScore={bestScore}
                 onMoveLeft={slideLeft}
                 onMoveRight={slideRight}
                 onMoveUp={slideUp}

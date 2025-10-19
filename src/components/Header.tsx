@@ -9,16 +9,22 @@ export default function Header(props: HeaderProps) {
             <div>
                 <button
                     type="button"
-                    className="focus:outline-none text-white bg-yellow-400 hover:bg-yellow-500 focus:ring-4 focus:ring-yellow-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:focus:ring-yellow-900"
+                    className="px-5 py-2 rounded-xl font-semibold bg-gradient-to-br from-amber-100 to-amber-200 
+             shadow-[4px_4px_8px_rgba(0,0,0,0.25),-3px_-3px_6px_rgba(255,255,255,0.7)]
+             active:shadow-[inset_3px_3px_6px_rgba(0,0,0,0.2),inset_-3px_-3px_6px_rgba(255,255,255,0.8)]
+             transition-all duration-150 ease-in-out select-none"
                     onClick={props.resetGameFunction}
                 >
-                    New Game
+                    🔄 New Game
                 </button>
                 <button
                     type="button"
-                    className="text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700"
+                    className="px-4 py-2 rounded-xl ml-3 font-semibold bg-gradient-to-br from-slate-100 to-slate-200 
+             shadow-[4px_4px_8px_rgba(0,0,0,0.25),-3px_-3px_6px_rgba(255,255,255,0.7)]
+             active:shadow-[inset_3px_3px_6px_rgba(0,0,0,0.2),inset_-3px_-3px_6px_rgba(255,255,255,0.8)]
+             transition-all duration-150 ease-in-out select-none"
                 >
-                    Dark theme
+                    🌗 Dark theme
                 </button>
             </div>
         </>
