@@ -3,10 +3,11 @@ import type { CellValue } from "../utils/board"
 
 interface TileProps {
     cellValue?: CellValue
+    position: { row: number; col: number }
 }
 
-export default function Tile({ cellValue }: TileProps) {
-    if (!cellValue) {
+export default function Tile({ cellValue, position }: TileProps) {
+    if (!cellValue || cellValue.value === 0) {
         return (
             <div
                 className="relative w-full before:content-[''] before:block before:pt-[100%] rounded-xl 
@@ -31,6 +32,42 @@ export default function Tile({ cellValue }: TileProps) {
         1024: "from-amber-400 to-amber-500 dark:from-amber-600 dark:to-amber-700 text-white",
         2048: "from-green-400 to-green-500 dark:from-green-600 dark:to-green-700 text-white"
     }
+
+    return (
+        <motion.div
+            layout
+            layoutId={`tile-${position.row}-${position.col}`}
+            key={`${position.row}-${position.col}-${cellValue.value}`}
+            initial={{ scale: 0.8, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            transition={{
+                type: "spring",
+                stiffness: 250,
+                damping: 20
+            }}
+            whileTap={{ scale: 0.95 }}
+            className={`relative w-full before:content-[''] before:block before:pt-[100%] rounded-xl 
+                shadow-[inset_0_2px_4px_rgba(255,255,255,0.7),inset_0_-3px_6px_rgba(0,0,0,0.2),0_4px_6px_rgba(0,0,0,0.2)]
+                ${colorMap[cellValue.value] ?? "bg-gradient-to-br from-amber-100 to-amber-200"}
+                dark:shadow-[inset_0_2px_4px_rgba(255,255,255,0.05),inset_0_-3px_6px_rgba(0,0,0,0.4),0_4px_6px_rgba(0,0,0,0.4)]
+                flex items-center justify-center text-xl font-bold select-none`}
+        >
+            <motion.div
+                layout
+                initial={{ scale: cellValue ? 0.7 : 1 }}
+                animate={{ scale: 1 }}
+                transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                className={`relative w-full before:content-[''] before:block before:pt-[100%] rounded-xl 
+                shadow-[inset_0_2px_4px_rgba(255,255,255,0.7),inset_0_-3px_6px_rgba(0,0,0,0.3),0_4px_6px_rgba(0,0,0,0.2)] 
+                bg-gradient-to-br ${colorMap[cellValue.value] ?? colorMap[0]} 
+                flex items-center justify-center text-xl font-bold select-none`}
+            >
+                {cellValue.value ? (
+                    <span className="absolute text-center drop-shadow-sm">{cellValue.value}</span>
+                ) : null}
+            </motion.div>
+        </motion.div>
+    )
 
     return (
         <motion.div

@@ -30,7 +30,9 @@ export default function Board(props: BoardProps) {
         >
             <div className="grid grid-cols-4 gap-3" style={{ gridAutoRows: "1fr" }}>
                 {props.board.map((row, r) =>
-                    row.map((cell, i) => <Tile key={`${r}-${i}-${cell.value}`} cellValue={cell} />)
+                    row.map((cell, c) => (
+                        <Tile key={`${r}-${c}-${cell.value}`} cellValue={cell} position={{ row: r, col: c }} />
+                    ))
                 )}
             </div>
         </div>
