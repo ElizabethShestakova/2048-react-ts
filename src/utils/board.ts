@@ -31,5 +31,13 @@ export function addRandomTile(board: Board): Board {
 }
 
 export function boardsEqual(a: Board, b: Board) {
-    return a.every((row, i) => row.every((val, j) => val === b[i][j]))
+    if (!a || !b) return false
+    for (let r = 0; r < a.length; r++) {
+        for (let c = 0; c < a[r].length; c++) {
+            const av = a[r][c] ? a[r][c]!.value : null
+            const bv = b[r][c] ? b[r][c]!.value : null
+            if (av !== bv) return false
+        }
+    }
+    return true
 }
