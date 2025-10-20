@@ -1,26 +1,31 @@
-import { useRef, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { addRandomTile, boardsEqual, createEmptyBoard, type Board, type SlideResult } from "../utils/board"
 import { moveDown, moveLeft, moveRight, moveUp } from "../utils/rowOps"
 import { checkGameIsOver } from "../utils/checkGameIsOver"
+import { clearGameState, loadGameState, saveGameState } from "../utils/storage"
 
 export function useGameLogic() {
     const [board, setBoard] = useState<Board>(() => {
-        const b = createEmptyBoard()
-        return addRandomTile(addRandomTile(b))
+        const saved = loadGameState()
+        const board = saved ? saved.board : addRandomTile(addRandomTile(createEmptyBoard()))
+        return board
     })
-    const [score, setScore] = useState(0)
+    const [score, setScore] = useState(() => loadGameState()?.score ?? 0)
 
     const [gameIsOver, setGameIsOver] = useState(false)
 
-    const [bestScore, setBestScore] = useState(() => {
-        const saved = localStorage.getItem("bestScore")
-        return saved ? parseInt(saved, 10) : 0
-    })
+    const [bestScore, setBestScore] = useState(() => loadGameState()?.bestScore ?? 0)
+
+    // 💾 сохраняем состояние при каждом изменении
+    useEffect(() => {
+        saveGameState({ board, score, bestScore })
+    }, [board, score, bestScore])
 
     // ⛔️ предотвращаем двойное выполнение из-за StrictMode
     const lastActionRef = useRef<number>(0)
 
     const resetGame = () => {
+        clearGameState()
         const newBoard = addRandomTile(addRandomTile(createEmptyBoard()))
         setBoard(newBoard)
         setScore(0)
