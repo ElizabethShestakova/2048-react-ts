@@ -68,19 +68,4 @@ export default function Tile({ cellValue, position }: TileProps) {
             </motion.div>
         </motion.div>
     )
-
-    return (
-        <motion.div
-            layout
-            initial={{ scale: cellValue ? 0.7 : 1 }}
-            animate={{ scale: 1 }}
-            transition={{ type: "spring", stiffness: 300, damping: 20 }}
-            className={`relative w-full before:content-[''] before:block before:pt-[100%] rounded-xl 
-                shadow-[inset_0_2px_4px_rgba(255,255,255,0.7),inset_0_-3px_6px_rgba(0,0,0,0.3),0_4px_6px_rgba(0,0,0,0.2)] 
-                bg-gradient-to-br ${colorMap[cellValue.value] ?? colorMap[0]} 
-                flex items-center justify-center text-xl font-bold select-none`}
-        >
-            {cellValue.value ? <span className="absolute text-center drop-shadow-sm">{cellValue.value}</span> : null}
-        </motion.div>
-    )
 }

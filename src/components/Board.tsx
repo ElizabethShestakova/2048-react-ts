@@ -1,3 +1,4 @@
+import { useRef } from "react"
 import useSwipe from "../hooks/useSwipe"
 import { type Board } from "../utils/board"
 import Tile from "./Tile"
@@ -11,15 +12,20 @@ interface BoardProps {
 }
 
 export default function Board(props: BoardProps) {
-    useSwipe({
-        onSwipeLeft: props.onMoveLeft,
-        onSwipeRight: props.onMoveRight,
-        onSwipeUp: props.onMoveUp,
-        onSwipeDown: props.onMoveDown
-    })
+    const boardRef = useRef<HTMLDivElement>(null)
+    useSwipe(
+        {
+            onSwipeLeft: props.onMoveLeft,
+            onSwipeRight: props.onMoveRight,
+            onSwipeUp: props.onMoveUp,
+            onSwipeDown: props.onMoveDown
+        },
+        boardRef
+    )
 
     return (
         <div
+            ref={boardRef}
             className="w-[90vw] max-w-[360px] mx-auto 
                 bg-gradient-to-br from-stone-400 to-stone-300 
                 dark:from-stone-800 dark:to-stone-700 
