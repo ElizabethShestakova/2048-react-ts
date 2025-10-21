@@ -8,7 +8,6 @@ import Score from "./components/Score"
 import Footer from "./components/Footer"
 import "./App.css"
 import WinModal from "./components/WinModal"
-import { useScroll } from "framer-motion"
 
 function App() {
     const {
