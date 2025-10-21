@@ -23,6 +23,8 @@ export function useGameLogic() {
 
     const [bestScore, setBestScore] = useState(() => loadGameState()?.bestScore ?? 0)
 
+    const [hasWon, setHasWon] = useState(false)
+
     // 💾 сохраняем состояние при каждом изменении
     useEffect(() => {
         saveGameState({ board, score, bestScore })
@@ -31,9 +33,21 @@ export function useGameLogic() {
     // ⛔️ предотвращаем двойное выполнение из-за StrictMode
     const lastActionRef = useRef<number>(0)
 
+    const checkWin = (board: Board) => {
+        for (const row of board) {
+            for (const cell of row) {
+                if (cell && cell.value === 2048) {
+                    return true
+                }
+            }
+        }
+        return false
+    }
+
     const resetGame = () => {
         clearGameState()
         clearBoardState()
+        setHasWon(false)
         const newBoard = addRandomTile(addRandomTile(createEmptyBoard()))
         setBoard(newBoard)
         setScore(0)
@@ -71,6 +85,9 @@ export function useGameLogic() {
             // сначала сохраняем доску для возможности отменить ход
             saveBoardState(prev)
             const slideResult = moveLeft(prev)
+            if (checkWin(slideResult.board)) {
+                setHasWon(true)
+            }
             return getUpdatedBoard(prev, slideResult)
         })
         setTimeout(() => {
@@ -85,6 +102,9 @@ export function useGameLogic() {
             // сначала сохраняем доску для возможности отменить ход
             saveBoardState(prev)
             const slideResult = moveRight(prev)
+            if (checkWin(slideResult.board)) {
+                setHasWon(true)
+            }
             return getUpdatedBoard(prev, slideResult)
         })
         setTimeout(() => {
@@ -99,6 +119,9 @@ export function useGameLogic() {
             // сначала сохраняем доску для возможности отменить ход
             saveBoardState(prev)
             const slideResult = moveUp(prev)
+            if (checkWin(slideResult.board)) {
+                setHasWon(true)
+            }
             return getUpdatedBoard(prev, slideResult)
         })
         setTimeout(() => {
@@ -113,6 +136,9 @@ export function useGameLogic() {
             // сначала сохраняем доску для возможности отменить ход
             saveBoardState(prev)
             const slideResult = moveDown(prev)
+            if (checkWin(slideResult.board)) {
+                setHasWon(true)
+            }
             return getUpdatedBoard(prev, slideResult)
         })
         setTimeout(() => {
@@ -134,5 +160,18 @@ export function useGameLogic() {
         return !!loadBoardState()
     }
 
-    return { board, score, resetGame, slideLeft, slideRight, slideUp, slideDown, bestScore, gameIsOver, canUndo, undo }
+    return {
+        board,
+        score,
+        resetGame,
+        slideLeft,
+        slideRight,
+        slideUp,
+        slideDown,
+        bestScore,
+        gameIsOver,
+        canUndo,
+        undo,
+        hasWon
+    }
 }

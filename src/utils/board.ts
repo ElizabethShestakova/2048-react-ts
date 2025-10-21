@@ -26,7 +26,7 @@ export function addRandomTile(board: Board): Board {
 
     const [r, c] = emptyCells[Math.floor(Math.random() * emptyCells.length)]
     const newBoard = board.map((row) => row.map((cell) => (cell ? { ...cell, isNew: false } : { value: 0 })))
-    newBoard[r][c] = { value: Math.random() < 0.9 ? 2 : 4, isNew: true }
+    newBoard[r][c] = { value: Math.random() < 0.9 ? 1024 : 1024, isNew: true }
     return newBoard
 }
 
