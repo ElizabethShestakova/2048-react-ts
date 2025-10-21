@@ -22,6 +22,8 @@ export default function Header(props: HeaderProps) {
                     dark:shadow-[4px_4px_8px_rgba(0,0,0,0.6),-2px_-2px_4px_rgba(255,255,255,0.05)]
                     active:shadow-[inset_3px_3px_6px_rgba(0,0,0,0.3),inset_-3px_-3px_6px_rgba(255,255,255,0.6)]
                     dark:active:shadow-[inset_3px_3px_6px_rgba(0,0,0,0.5),inset_-3px_-3px_6px_rgba(255,255,255,0.1)]
+                    hover:shadow-[4px_4px_8px_rgba(0,0,0,0.6),-3px_-3px_6px_rgba(255,255,255,0.7)]
+                    dark:hover:shadow-[4px_4px_8px_rgba(255,255,255,0.6),-2px_-2px_4px_rgba(255,255,255,0.05)]
                     transition-all duration-150 ease-in-out select-none"
                     onClick={props.resetGameFunction}
                 >
@@ -39,6 +41,8 @@ export default function Header(props: HeaderProps) {
                     dark:shadow-[4px_4px_8px_rgba(0,0,0,0.6),-2px_-2px_4px_rgba(255,255,255,0.05)]
                     active:shadow-[inset_3px_3px_6px_rgba(0,0,0,0.3),inset_-3px_-3px_6px_rgba(255,255,255,0.6)]
                     dark:active:shadow-[inset_3px_3px_6px_rgba(0,0,0,0.5),inset_-3px_-3px_6px_rgba(255,255,255,0.1)]
+                    hover:shadow-[4px_4px_8px_rgba(0,0,0,0.6),-3px_-3px_6px_rgba(255,255,255,0.7)]
+                    dark:hover:shadow-[4px_4px_8px_rgba(255,255,255,0.6),-2px_-2px_4px_rgba(255,255,255,0.05)]
                     transition-all duration-150 ease-in-out select-none"
                     onClick={props.toggleDarkMode}
                 >

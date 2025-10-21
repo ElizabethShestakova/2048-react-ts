@@ -2,7 +2,14 @@ import { useEffect, useRef, useState } from "react"
 import { addRandomTile, boardsEqual, createEmptyBoard, type Board, type SlideResult } from "../utils/board"
 import { moveDown, moveLeft, moveRight, moveUp } from "../utils/rowOps"
 import { checkGameIsOver } from "../utils/checkGameIsOver"
-import { clearGameState, loadGameState, saveGameState } from "../utils/storage"
+import {
+    clearBoardState,
+    clearGameState,
+    loadBoardState,
+    loadGameState,
+    saveBoardState,
+    saveGameState
+} from "../utils/storage"
 
 export function useGameLogic() {
     const [board, setBoard] = useState<Board>(() => {
@@ -26,6 +33,7 @@ export function useGameLogic() {
 
     const resetGame = () => {
         clearGameState()
+        clearBoardState()
         const newBoard = addRandomTile(addRandomTile(createEmptyBoard()))
         setBoard(newBoard)
         setScore(0)
@@ -60,6 +68,8 @@ export function useGameLogic() {
 
     const slideLeft = () => {
         setBoard((prev) => {
+            // сначала сохраняем доску для возможности отменить ход
+            saveBoardState(prev)
             const slideResult = moveLeft(prev)
             return getUpdatedBoard(prev, slideResult)
         })
@@ -72,6 +82,8 @@ export function useGameLogic() {
 
     const slideRight = () => {
         setBoard((prev) => {
+            // сначала сохраняем доску для возможности отменить ход
+            saveBoardState(prev)
             const slideResult = moveRight(prev)
             return getUpdatedBoard(prev, slideResult)
         })
@@ -84,6 +96,8 @@ export function useGameLogic() {
 
     const slideUp = () => {
         setBoard((prev) => {
+            // сначала сохраняем доску для возможности отменить ход
+            saveBoardState(prev)
             const slideResult = moveUp(prev)
             return getUpdatedBoard(prev, slideResult)
         })
@@ -96,6 +110,8 @@ export function useGameLogic() {
 
     const slideDown = () => {
         setBoard((prev) => {
+            // сначала сохраняем доску для возможности отменить ход
+            saveBoardState(prev)
             const slideResult = moveDown(prev)
             return getUpdatedBoard(prev, slideResult)
         })
@@ -106,5 +122,17 @@ export function useGameLogic() {
         }, 150)
     }
 
-    return { board, score, resetGame, slideLeft, slideRight, slideUp, slideDown, bestScore, gameIsOver }
+    const undo = () => {
+        const boardState = loadBoardState()
+        if (boardState) {
+            setBoard(boardState)
+            clearBoardState()
+        }
+    }
+
+    const canUndo = () => {
+        return !!loadBoardState()
+    }
+
+    return { board, score, resetGame, slideLeft, slideRight, slideUp, slideDown, bestScore, gameIsOver, canUndo, undo }
 }

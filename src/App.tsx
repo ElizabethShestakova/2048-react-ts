@@ -5,10 +5,12 @@ import Header from "./components/Header"
 import Board from "./components/Board"
 import GameOverModal from "./components/GameOverModal"
 import Score from "./components/Score"
+import Footer from "./components/Footer"
 import "./App.css"
 
 function App() {
-    const { board, score, resetGame, slideLeft, slideRight, slideUp, slideDown, bestScore, gameIsOver } = useGameLogic()
+    const { board, score, resetGame, slideLeft, slideRight, slideUp, slideDown, bestScore, gameIsOver, canUndo, undo } =
+        useGameLogic()
 
     const handleUserKeyPress = (e: KeyboardEvent) => {
         if (e.key === "ArrowLeft") {
@@ -49,6 +51,7 @@ function App() {
                 onMoveUp={slideUp}
                 onMoveDown={slideDown}
             />
+            <Footer onUndo={undo} disabled={!canUndo()} />
             <GameOverModal show={gameIsOver} score={score} bestScore={bestScore} onRestart={resetGame} />
         </div>
     )
